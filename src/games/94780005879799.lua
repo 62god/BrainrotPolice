@@ -36,7 +36,7 @@ return function(section, data)
             while getgenv().AutoSleepy do
                 local Event = game:GetService("ReplicatedStorage").Remotes.SpinEventWheel
                 Event:FireServer(
-                    5
+                    1
                 )
                 task.wait(0.5)
             end
