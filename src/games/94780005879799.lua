@@ -1,14 +1,14 @@
--- scream for brainrots
-
 return function(section, data)
     local elements = loadstring(game:HttpGet(getgitpath("src").."elements.lua"))()
     getgenv().AddingSpins = false
+    getgenv().AutoScream = false
     getgenv().AutoSleepy = false
     getgenv().AutoOg = false
 
     local setdata = data[tostring(game.PlaceId)] or {}
     setdata.addspins = setdata.addspins or false
-    setdata.farmsleepy = setdata.farmrofarmsleepyts or false
+    setdata.farmscream = setdata.farmscream or false
+    setdata.farmsleepy = setdata.farmsleepy or false
     setdata.farmog = setdata.farmog or false
     data[tostring(game.PlaceId)] = setdata
     writefile("BrainrotPolice/Config.json", game:GetService("HttpService"):JSONEncode(data))
@@ -28,6 +28,23 @@ return function(section, data)
         end
     end)
 
+    elements:Toggle("Auto Spin Scream Mutation", section, setdata.farmscream, function(v)
+        setconfig("farmscream", v)
+        if v then
+            getgenv().AutoScream = true
+
+            while getgenv().AutoScream do
+                local Event = game:GetService("ReplicatedStorage").Remotes.SpinEventWheel
+                Event:FireServer(
+                    1
+                )
+                task.wait(0.5)
+            end
+        else
+            getgenv().AutoScream = false
+        end
+    end)
+
     elements:Toggle("Auto Spin Sleepy Mutation", section, setdata.farmsleepy, function(v)
         setconfig("farmsleepy", v)
         if v then
@@ -36,7 +53,7 @@ return function(section, data)
             while getgenv().AutoSleepy do
                 local Event = game:GetService("ReplicatedStorage").Remotes.SpinEventWheel
                 Event:FireServer(
-                    1
+                    5
                 )
                 task.wait(0.5)
             end
